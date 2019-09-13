@@ -19,8 +19,8 @@ public class MyAgentTest {
     MyAgent yellowAgent = new MyAgent(game, false);
     game.clearBoard();
     for (int i = 0; i < 3; i++) {
-      redAgent.moveOnColumn(1);
-      yellowAgent.moveOnColumn(2);
+      redAgent.moveOnColumn(1,game);
+      yellowAgent.moveOnColumn(2,game);
     }
 
     assertEquals(redAgent.iCanWin(), 1);
@@ -33,13 +33,13 @@ public class MyAgentTest {
     MyAgent yellowAgent = new MyAgent(game, false);
     game.clearBoard();
     for (int i = 0; i < 2; i++) {
-      redAgent.moveOnColumn(1);
-      yellowAgent.moveOnColumn(2);
+      redAgent.moveOnColumn(1,game);
+      yellowAgent.moveOnColumn(2,game);
     }
 
     for (int i = 0; i < 3; i++) {
-      redAgent.moveOnColumn(2);
-      yellowAgent.moveOnColumn(1);   
+      redAgent.moveOnColumn(2,game);
+      yellowAgent.moveOnColumn(1,game);   
     }
 
     assertEquals(redAgent.iCanWin(), 2);
@@ -47,8 +47,38 @@ public class MyAgentTest {
   }
 
   // TODO: Write 2 test cases for testICanWinHorizontally 
+  public void testICanWinHorizontally() {
+	    MyAgent redAgent = new MyAgent(game, true);
+	    MyAgent yellowAgent = new MyAgent(game, false);
+	    game.clearBoard();
+	    for (int i = 0; i < 3; i++) {
+	      redAgent.moveOnColumn(i,game);
+	      yellowAgent.moveOnColumn(5,game);
+	    }
+
+	    assertEquals(redAgent.iCanWin(), 3);
+
+	  }
 
   // TODO: Write 2 test cases for testICanWinDiagonally
+  public void testICanWinDiagonally() {
+	    MyAgent redAgent = new MyAgent(game, true);
+	    MyAgent yellowAgent = new MyAgent(game, false);
+	    game.clearBoard();
+	      yellowAgent.moveOnColumn(1,game);
+	      yellowAgent.moveOnColumn(2,game);
+	      yellowAgent.moveOnColumn(2,game);
+	      yellowAgent.moveOnColumn(3,game);
+	      yellowAgent.moveOnColumn(3,game);
+	      yellowAgent.moveOnColumn(3,game); 
+	      for (int j=0; j<3; j++) {
+	        redAgent.moveOnColumn(j,game);
+	      }
+		    assertEquals(redAgent.iCanWin(), 3); 
+		    
+	      
+	  }
+
 
   @Test
   public void testTheyCanWin() {
@@ -56,16 +86,46 @@ public class MyAgentTest {
     MyAgent yellowAgent = new MyAgent(game, false);
     game.clearBoard();
     for (int i = 0; i < 3; i++) {
-      redAgent.moveOnColumn(1);
-      yellowAgent.moveOnColumn(2);
+      redAgent.moveOnColumn(1,game);
+      yellowAgent.moveOnColumn(2,game);
     }
 
     assertEquals(redAgent.theyCanWin(), 2);
   }
 
   // TODO: Write testTheyCanWinHorizontally
+  public void testTheyCanWinHorizontally() {
+	    MyAgent redAgent = new MyAgent(game, true);
+	    MyAgent yellowAgent = new MyAgent(game, false);
+	    game.clearBoard();
+	    for (int i = 0; i < 3; i++) {
+	      redAgent.moveOnColumn(5,game);
+	      yellowAgent.moveOnColumn(i,game);
+	    }
+
+	    assertEquals(redAgent.theyCanWin(), 3);
+
+	  }
+
 
   // TODO: Write testTheyCanWinDiagonally
+  public void testTheyCanWinDiagonally() {
+	    MyAgent redAgent = new MyAgent(game, true);
+	    MyAgent yellowAgent = new MyAgent(game, false);
+	    game.clearBoard();
+	      redAgent.moveOnColumn(1,game);
+	      redAgent.moveOnColumn(2,game);
+	      redAgent.moveOnColumn(2,game);
+	      redAgent.moveOnColumn(3,game);
+	      redAgent.moveOnColumn(3,game);
+	      redAgent.moveOnColumn(3,game); 
+	      for (int j=0; j<3; j++) {
+	        yellowAgent.moveOnColumn(j,game);
+	      }
+		    assertEquals(redAgent.theyCanWin(), 3); 
+		    
+	      
+	  }
 
   // Tests you can win against a Beginner agent as Red
   @Test
@@ -73,7 +133,7 @@ public class MyAgentTest {
     Agent redAgent = new MyAgent(game, true);
     Agent yellowAgent = new BeginnerAgent(game, false);
     int numberOfWins = 0;
-    for (int i = 0; i < 50; i++) {
+    for (int i = 0; i < 2; i++) {
       game.clearBoard(); 
       while(!game.boardFull() || game.gameWon() == 'N') {
         redAgent.move();
@@ -88,7 +148,7 @@ public class MyAgentTest {
     }
     System.out.println("You won: " + numberOfWins + " games as Red against Beginner");
     // Test that you win over 90% of your games
-    assertTrue(numberOfWins >= 45);
+    assertTrue(numberOfWins >= 9);
   }
 
   // Tests you can win against a Beginner agent as Yellow
@@ -97,7 +157,7 @@ public class MyAgentTest {
     Agent redAgent = new BeginnerAgent(game, true);
     Agent yellowAgent = new MyAgent(game, false);
     int numberOfWins = 0;
-    for (int i = 0; i < 50; i++) {
+    for (int i = 0; i < 10; i++) {
       game.clearBoard(); 
       while(!game.boardFull() || game.gameWon() == 'N') {
         redAgent.move();
@@ -112,7 +172,7 @@ public class MyAgentTest {
     }
     System.out.println("You won: " + numberOfWins + " games as Yellow against Beginner");
     // Test that you win over 90% of your games
-    assertTrue(numberOfWins >= 45);
+    assertTrue(numberOfWins >= 9);
   }
 
   // Tests you can win against a Random agent as Red
