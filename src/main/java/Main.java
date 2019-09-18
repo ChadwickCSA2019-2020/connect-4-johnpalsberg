@@ -13,20 +13,20 @@
  * </ul>
  */
 public class Main {
-    /**
-     * Main method that initializes the game.
-     * @param args
-     *      command line arguments
-     */
-    public static void main(String[] args) {
-        // create the game; these sizes can be altered for larger or smaller games
-        Connect4Game game = new Connect4Game(7, 6);
-        // create the red player, any subclass of Agent
-        Agent redPlayer = new BeginnerAgent(game, true);
-        // create the yellow player, any subclass of Agent
-        Agent yellowPlayer = new MyAgent(game, false);
-        // create the game window
-        @SuppressWarnings("unused")
-        Connect4Frame mainframe = new Connect4Frame(game, redPlayer, yellowPlayer);
-    }
+  /**
+   * Main method that initializes the game.
+   * @param args
+   *      command line arguments
+   */
+  public static void main(String[] args) {
+    // create the game; these sizes can be altered for larger or smaller games
+    Connect4Game game = new Connect4Game(7, 6);
+    // create the red player, any subclass of Agent
+    Agent redPlayer = new BeginnerAgent(game, true);
+    // create the yellow player, any subclass of Agent
+    Agent yellowPlayer = new MyAgent(game, false);
+    // create the game window
+    @SuppressWarnings("unused")
+    Connect4Frame mainframe = new Connect4Frame(game, redPlayer, yellowPlayer);
+  }
 }
