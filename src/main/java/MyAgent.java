@@ -57,12 +57,13 @@ public class MyAgent extends Agent {
         System.out.println("They Can Win");
         this.moveOnColumn(this.theyCanWin());
     } else if(this.doubleTheyCanWin() != -2) {
-        
+      System.out.println("i" +i);
         this.moveOnColumn(i);
         }
-        else if (this.OpAttack() != -2) {
-          this.moveOnColumn(j);
-        }
+    else if (this.OpAttack() != -2) {
+         
+        this.moveOnColumn(j);
+    }
     else if (this.doubleICanWinCheck() != -1) {
       System.out.println("DoubleICanWin"+this.doubleICanWinCheck());
       this.moveOnColumn(doubleICanWinCheck());
@@ -392,16 +393,18 @@ public class MyAgent extends Agent {
     if (this.doubleTheyCanWin() != -2 && this.iCanWin() != this.doubleTheyCanWin()) {
       System.out.println("doubleTheyCanWin"+this.doubleTheyCanWin());
       // this.moveOnColumn(this.aTheyCanWin());
-        int i = this.randomMove();
-        while (i == this.doubleTheyCanWin())
-          i = this.randomMove();
-        
+         i = this.randomMove();
+         System.out.println(i);
+        while (i == this.doubleTheyCanWin()) {
+          i =this.randomMove();
+
+        }
     }
          if (this.OpAttack() != -2 && this.iCanWin() != this.OpAttack() && this.theyCanWin() != this.OpAttack()) {
-           int j = this.randomMove();
-           while (j == this.OpAttack())
+          j = this.randomMove();
+           while (j == this.OpAttack()) {
              j = this.randomMove();
-            
+           }
          }
   }
 
