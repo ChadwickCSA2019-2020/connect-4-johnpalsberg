@@ -12,6 +12,8 @@ public class MyAgent extends Agent {
   private Random random;
   private int x;
   private Connect4Game ACopy;
+  private int i;
+  private int j;
 
   /**
    * Constructs a new agent, giving it the game and telling it whether it is Red or Yellow.
@@ -45,34 +47,35 @@ public class MyAgent extends Agent {
    *
    */
   public void move() {
-    System.out.println(this.aTheyCanWin());
-    if (this.iCanWin() != -1) {
+    System.out.println(this.doubleTheyCanWin());
+     this.initialChecks();
+    
+     if (this.iCanWin() != -1) {
       System.out.println("I can win");
       this.moveOnColumn(this.iCanWin());
     } else if (this.theyCanWin() != -1) {
-      System.out.println("They Can Win");
-      this.moveOnColumn(this.theyCanWin());
-    } else if (this.doubleTheyCanWin() != -1) {
-      System.out.println("doubleTheyCanWin"+this.doubleTheyCanWin());
-     // this.moveOnColumn(this.aTheyCanWin());
-    }else if (this.doubleICanWinCheck() != -1) {
+        System.out.println("They Can Win");
+        this.moveOnColumn(this.theyCanWin());
+    } else if(this.doubleTheyCanWin() != -2) {
+        
+        this.moveOnColumn(i);
+        }
+        else if (this.OpAttack() != -2) {
+          this.moveOnColumn(j);
+        }
+    else if (this.doubleICanWinCheck() != -1) {
       System.out.println("DoubleICanWin"+this.doubleICanWinCheck());
       this.moveOnColumn(doubleICanWinCheck());
     } else {
       System.out.println("Moving randomly");
-      int i = this.randomMove();
-      if(this.doubleTheyCanWin() != -1) {
-        while (i == this.doubleTheyCanWin())
-          i = this.randomMove();
-        
-         this.moveOnColumn(i);
+
+        System.out.println("Random");
+        this.moveOnColumn(this.randomMove());
       }
-      else 
-      this.moveOnColumn(this.randomMove());
 
     }
-
-  }
+ 
+  
 
   /**
    * Drops a token into a particular column so that it will fall to the bottom of the column.
@@ -277,7 +280,7 @@ public class MyAgent extends Agent {
    */
 
 
-  priv ate int doubleICanWin() {
+  private int doubleICanWin() {
     int x = -1;
     int y = -1;
     while (x < 6) {
@@ -338,16 +341,14 @@ public class MyAgent extends Agent {
         this.moveOnColumn(x, copy);  // place on that column
         if (getLowestEmptyIndex(copy.getColumn(x))!= -1)
           this.moveOnOppColumn(x, copy); 
-        else 
-          break;
+        
       }
-      
-      if (iAmRed) {
-       c = 'y';
-      }
-      else {
-      c = 'r';
-      }
+     
+      if (iAmRed) 
+        c = 'Y';
+      else 
+        c = 'R';
+     
       if (copy.gameWon() == c) {
       
         //check for a loss
@@ -355,7 +356,53 @@ public class MyAgent extends Agent {
       }
       // return the column
     }                              
-    return -1;
+    return -2;
   
   }
+  public int OpAttack() {
+    char c;
+    int x = -1;
+    while (x < 6) {
+      Connect4Game copy = new Connect4Game(myGame); //make a copy
+      x++;
+      if (getLowestEmptyIndex(copy.getColumn(x))!= -1) {
+       
+        this.moveOnOppColumn(x, copy);  // place on that column
+        if (getLowestEmptyIndex(copy.getColumn(x))!= -1)
+          this.moveOnColumn(x, copy); 
+        
+      }
+     
+      if (iAmRed) 
+        c = 'R';
+      else 
+        c = 'Y';
+     
+      if (copy.gameWon() == c) {
+      
+        //check for a loss
+        return x; 
+      }
+      // return the column
+    }                              
+    return -2;
+  
+  }
+  public void initialChecks() {
+    if (this.doubleTheyCanWin() != -2 && this.iCanWin() != this.doubleTheyCanWin()) {
+      System.out.println("doubleTheyCanWin"+this.doubleTheyCanWin());
+      // this.moveOnColumn(this.aTheyCanWin());
+        int i = this.randomMove();
+        while (i == this.doubleTheyCanWin())
+          i = this.randomMove();
+        
+    }
+         if (this.OpAttack() != -2 && this.iCanWin() != this.OpAttack() && this.theyCanWin() != this.OpAttack()) {
+           int j = this.randomMove();
+           while (j == this.OpAttack())
+             j = this.randomMove();
+            
+         }
+  }
+
 }
