@@ -10,6 +10,8 @@ public class MyAgent extends Agent {
    * A random number generator to randomly decide where to place a token.
    */
   private Random random;
+  private int x;
+  private Connect4Game ACopy;
 
   /**
    * Constructs a new agent, giving it the game and telling it whether it is Red or Yellow.
@@ -20,6 +22,7 @@ public class MyAgent extends Agent {
   public MyAgent(Connect4Game game, boolean iAmRed) {
     super(game, iAmRed);
     random = new Random();
+    ACopy = new Connect4Game(myGame);
   }
 
   /**
@@ -46,7 +49,11 @@ public class MyAgent extends Agent {
       System.out.println("I can win");
       this.moveOnColumn(this.iCanWin());
     } else if (this.theyCanWin() != -1) {
+      System.out.println("They Can Win");
       this.moveOnColumn(this.theyCanWin());
+    } else if (this.doubleICanWinCheck() != -1) {
+      System.out.println("DoubleICanWin"+this.doubleICanWinCheck());
+      this.moveOnColumn(doubleICanWinCheck());
     } else {
       System.out.println("Moving randomly");
       this.moveOnColumn(this.randomMove());
@@ -176,6 +183,31 @@ public class MyAgent extends Agent {
     }                              //repeat
     return -1;
   }
+  
+  public int iCanWin(Connect4Game a) {
+     int c;
+    int x = -1;
+    while (x < 6) {
+      Connect4Game copy = new Connect4Game(a); //make a copy
+      x++;
+      if (getLowestEmptyIndex(copy.getColumn(x))!= -1) {
+        this.moveOnColumn(x, copy);     // place on that column
+      }
+      if (iAmRed == true) {
+      c = 'R';
+      } else {
+       c ='Y';
+      }
+      if (copy.gameWon() == c) {
+        System.out.println("Copy.gameWon" + copy.gameWon());
+        //check for a win
+        return x; 
+      }
+      // return the column
+    }                              //repeat
+    return -1;
+  }
+
 
   /**
    * Returns the column that would allow the opponent to win.
@@ -210,4 +242,65 @@ public class MyAgent extends Agent {
   public String getName() {
     return "My Agent";
   }
+  
+  public int OPMove() {
+ 
+    int s = 1;
+    int i = random.nextInt(myGame.getColumnCount());
+    while (getLowestEmptyIndex(myGame.getColumn(i)) == -1 && s > 0) {
+      i = random.nextInt(myGame.getColumnCount());
+      if (i == x) {
+        s = 0;
+      }
+   
+    }
+    x = i;
+    return i;
+  }
+  
+
+
+  private int doubleICanWin() {
+    int x = -1;
+    int y = -1;
+    while (x < 6) {
+      Connect4Game copyB = new Connect4Game(ACopy); //make a copy
+      x++;
+      if (getLowestEmptyIndex(copyB.getColumn(x)) != -1) { // if it isn't full
+        this.moveOnColumn(x, copyB);     // place on that column
+      }
+      if (copyB.gameWon() != 'N') {
+        Connect4Game copyA = new Connect4Game(myGame);                                                              //check for a win
+        this.moveOnOppColumn(x, copyA);
+        while (y < 6) {
+          y++;
+          this.moveOnColumn(y, copyA);
+          if (copyA.gameWon() !='N') 
+          return y;
+        }
+      // return the column
+      } 
+    }//repeat
+      return -1;
+  }
+ 
+
+
+  public int doubleICanWinCheck() {
+    int x = -1;
+    while (x < 6) {
+      ACopy = new Connect4Game(myGame); 
+      x++;
+      if (getLowestEmptyIndex(ACopy.getColumn(x))!= -1) { // if the column isn't full 
+        this.moveOnColumn(x, ACopy);     // place on that column
+      }
+      if (doubleICanWin() != -1) {
+        //check for a win
+        return x; 
+      }
+      // return the column
+    }                              //repeat
+    return -1;
+  }
+
 }
