@@ -45,18 +45,31 @@ public class MyAgent extends Agent {
    *
    */
   public void move() {
+    System.out.println(this.aTheyCanWin());
     if (this.iCanWin() != -1) {
       System.out.println("I can win");
       this.moveOnColumn(this.iCanWin());
     } else if (this.theyCanWin() != -1) {
       System.out.println("They Can Win");
       this.moveOnColumn(this.theyCanWin());
-    } else if (this.doubleICanWinCheck() != -1) {
+    } else if (this.doubleTheyCanWin() != -1) {
+      System.out.println("doubleTheyCanWin"+this.doubleTheyCanWin());
+     // this.moveOnColumn(this.aTheyCanWin());
+    }else if (this.doubleICanWinCheck() != -1) {
       System.out.println("DoubleICanWin"+this.doubleICanWinCheck());
       this.moveOnColumn(doubleICanWinCheck());
     } else {
       System.out.println("Moving randomly");
+      int i = this.randomMove();
+      if(this.doubleTheyCanWin() != -1) {
+        while (i == this.doubleTheyCanWin())
+          i = this.randomMove();
+        
+         this.moveOnColumn(i);
+      }
+      else 
       this.moveOnColumn(this.randomMove());
+
     }
 
   }
@@ -242,7 +255,7 @@ public class MyAgent extends Agent {
   public String getName() {
     return "My Agent";
   }
-  
+ /* 
   public int OPMove() {
  
     int s = 1;
@@ -256,11 +269,15 @@ public class MyAgent extends Agent {
     }
     x = i;
     return i;
-  }
+  } 
   
+  /*
+   * checks to see whether an indicated 
+   * line caused a fork
+   */
 
 
-  private int doubleICanWin() {
+  priv ate int doubleICanWin() {
     int x = -1;
     int y = -1;
     while (x < 6) {
@@ -284,7 +301,10 @@ public class MyAgent extends Agent {
       return -1;
   }
  
-
+/*
+ * Check for forks
+ * 
+ */
 
   public int doubleICanWinCheck() {
     int x = -1;
@@ -303,4 +323,39 @@ public class MyAgent extends Agent {
     return -1;
   }
 
+  /* checks for a column that would allow the opponent to win
+ * 
+ */
+
+  public int doubleTheyCanWin() {
+    char c;
+    int x = -1;
+    while (x < 6) {
+      Connect4Game copy = new Connect4Game(myGame); //make a copy
+      x++;
+      if (getLowestEmptyIndex(copy.getColumn(x))!= -1) {
+       
+        this.moveOnColumn(x, copy);  // place on that column
+        if (getLowestEmptyIndex(copy.getColumn(x))!= -1)
+          this.moveOnOppColumn(x, copy); 
+        else 
+          break;
+      }
+      
+      if (iAmRed) {
+       c = 'y';
+      }
+      else {
+      c = 'r';
+      }
+      if (copy.gameWon() == c) {
+      
+        //check for a loss
+        return x; 
+      }
+      // return the column
+    }                              
+    return -1;
+  
+  }
 }
