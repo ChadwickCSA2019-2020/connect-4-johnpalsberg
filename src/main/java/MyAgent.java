@@ -394,31 +394,36 @@ public class MyAgent extends Agent {
   public void initialChecks() {
     if (this.doubleTheyCanWin() != -2 && this.iCanWin() != this.doubleTheyCanWin()) {
       System.out.println("doubleTheyCanWin"+this.doubleTheyCanWin());
-      // this.moveOnColumn(this.aTheyCanWin());
          i = this.randomMove();
          System.out.println(i);
-       if (this.checkForColumn() != 1) 
+      if (this.checkForColumn() != -1) {
         i = this.checkForColumn();
-       else {
+        System.out.println("ia" +i);
+      }
+      else {
          while (i == this.doubleTheyCanWin()) {
           i =this.randomMove();
          }
 
        }
-    }
+  }
          if (this.OpAttack() != -2 && this.iCanWin() != this.OpAttack() && this.theyCanWin() != this.OpAttack()) {
          System.out.println("OP!");
            j = this.randomMove();
-           if (this.checkForColumn() != 1) 
+          if (this.checkForColumn() != -1) {
              j = this.checkForColumn();
-            else {
+          System.out.println("j" +j);
+         }
+          else {
               while (j == this.OpAttack()) {
                j = this.randomMove();
               }
+             
 
             }
   }
   }
+
 
 
 
@@ -433,8 +438,9 @@ int a = 0;
   }
   if (b ==1) {
     return a;
-  } else 
+  } else {
       return -1;
+  }
   
    
 
