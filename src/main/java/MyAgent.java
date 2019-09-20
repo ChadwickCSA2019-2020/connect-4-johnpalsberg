@@ -14,6 +14,7 @@ public class MyAgent extends Agent {
   private Connect4Game ACopy;
   private int i;
   private int j;
+  private int k;
 
   /**
    * Constructs a new agent, giving it the game and telling it whether it is Red or Yellow.
@@ -25,6 +26,7 @@ public class MyAgent extends Agent {
     super(game, iAmRed);
     random = new Random();
     ACopy = new Connect4Game(myGame);
+    k = 0;
   }
 
   /**
@@ -395,17 +397,47 @@ public class MyAgent extends Agent {
       // this.moveOnColumn(this.aTheyCanWin());
          i = this.randomMove();
          System.out.println(i);
-        while (i == this.doubleTheyCanWin()) {
+       if (this.checkForColumn() != 1) 
+        i = this.checkForColumn();
+       else {
+         while (i == this.doubleTheyCanWin()) {
           i =this.randomMove();
+         }
 
-        }
+       }
     }
          if (this.OpAttack() != -2 && this.iCanWin() != this.OpAttack() && this.theyCanWin() != this.OpAttack()) {
-          j = this.randomMove();
-           while (j == this.OpAttack()) {
-             j = this.randomMove();
-           }
-         }
+         System.out.println("OP!");
+           j = this.randomMove();
+           if (this.checkForColumn() != 1) 
+             j = this.checkForColumn();
+            else {
+              while (j == this.OpAttack()) {
+               j = this.randomMove();
+              }
+
+            }
+  }
   }
 
+
+
+public int checkForColumn() {
+int a = 0;
+  int b = 0;
+  for (int j = 0; j<6; j++) {
+    if(this.getLowestEmptyIndex(ACopy.getColumn(j)) != -1) {
+      b++;
+    a = j;
+    }
+  }
+  if (b ==1) {
+    return a;
+  } else 
+      return -1;
+  
+   
+
 }
+}
+
