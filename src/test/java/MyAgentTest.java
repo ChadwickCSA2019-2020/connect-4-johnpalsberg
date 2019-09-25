@@ -57,7 +57,7 @@ public class MyAgentTest {
       yellowAgent.moveOnColumn(5,game);
     }
 
-    assertEquals(redAgent.iCanWin(), 3);
+    assertEquals(yellowAgent.iCanWin(), 3);
 
   }
   @Test
@@ -89,7 +89,7 @@ public class MyAgentTest {
     for (int j=1; j<4; j++) {
       redAgent.moveOnColumn(j,game);
     }
-    assertEquals(redAgent.iCanWin(), 3); 
+    assertEquals(redAgent.iCanWin(), 4); 
 
 
   }
@@ -137,7 +137,7 @@ public class MyAgentTest {
       yellowAgent.moveOnColumn(i,game);
     }
 
-    assertEquals(yellowAgent.theyCanWin(), 3);
+    assertEquals(redAgent.theyCanWin(), 3);
 
   }
   @Test
@@ -150,7 +150,7 @@ public class MyAgentTest {
       redAgent.moveOnColumn(i,game);
     }
 
-    assertEquals(redAgent.theyCanWin(), 3);
+    assertEquals(yellowAgent.theyCanWin(), 3);
 
   }
 
@@ -170,7 +170,7 @@ public class MyAgentTest {
     for (int j=1; j<4; j++) {
       yellowAgent.moveOnColumn(j,game);
     }
-    assertEquals(yellowAgent.theyCanWin(), 3); 
+    assertEquals(yellowAgent.theyCanWin(), 0); 
 
 
   }
@@ -188,7 +188,7 @@ public class MyAgentTest {
     for (int j=1; j<3; j++) {
       redAgent.moveOnColumn(j,game);
     }
-    assertEquals(redAgent.theyCanWin(), 3); 
+    assertEquals(redAgent.theyCanWin(), 0); 
 
 
   }
