@@ -361,6 +361,40 @@ public class MyAgent extends Agent {
     return -2;
 
   }
+  public int doubleDoubleTheyCanWin() {
+    char c;
+    int x = -1;
+    if (this.doubleTheyCanWin() != -2) {
+      Connect4Game copy = new Connect4Game(myGame);
+      this.moveOnColumn(this.doubleTheyCanWin(),copy);
+    while (x < 6) {
+      Connect4Game copyA = new Connect4Game(copy); //make a copy
+      x++;
+      if (getLowestEmptyIndex(copy.getColumn(x))!= -1) {
+
+        this.moveOnColumn(x, copy);  // place on that column
+        if (getLowestEmptyIndex(copy.getColumn(x))!= -1)
+          this.moveOnOppColumn(x, copy); 
+
+      }
+
+      if (iAmRed) 
+        c = 'Y';
+      else 
+        c = 'R';
+
+      if (copy.gameWon() == c) {
+
+        //check for a loss
+        return x; 
+      }
+      // return the column
+    } 
+    }
+    return -2;
+
+  
+  }
   public int OpAttack() {
     char c;
     int x = -1;
@@ -403,6 +437,10 @@ public class MyAgent extends Agent {
         System.out.println("Enter Else1 Clause");
         while (i == this.doubleTheyCanWin()) {
           i = this.randomMove();
+          while (i== doubleDoubleTheyCanWin()) {
+            i= this.randomMove();
+            System.out.println("DoubleDouble"+doubleDoubleTheyCanWin());
+          }
         }
         System.out.println("Exit Else1 Clause");
       }
