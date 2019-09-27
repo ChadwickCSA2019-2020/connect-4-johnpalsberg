@@ -56,8 +56,11 @@ public class MyAgent extends Agent {
       System.out.println("I can win");
       this.moveOnColumn(this.iCanWin());
     } else if (this.theyCanWin() != -1) {
-      System.out.println("They Can Win");
+      System.out.println("They Can Win" + theyCanWin());
       this.moveOnColumn(this.theyCanWin());
+    } else if (this.forkDefense() != -1) {
+      System.out.println("forkDefense" +forkDefense());
+      this.moveOnColumn(forkDefense());
     } else if (this.doubleTheyCanWin() != -2) {
       System.out.println("i" +i);
       this.moveOnColumn(i);
@@ -367,33 +370,33 @@ public class MyAgent extends Agent {
     if (this.doubleTheyCanWin() != -2) {
       Connect4Game copy = new Connect4Game(myGame);
       this.moveOnColumn(this.doubleTheyCanWin(),copy);
-    while (x < 6) {
-      Connect4Game copyA = new Connect4Game(copy); //make a copy
-      x++;
-      if (getLowestEmptyIndex(copy.getColumn(x))!= -1) {
+      while (x < 6) {
+        Connect4Game copyA = new Connect4Game(copy); //make a copy
+        x++;
+        if (getLowestEmptyIndex(copy.getColumn(x))!= -1) {
 
-        this.moveOnColumn(x, copy);  // place on that column
-        if (getLowestEmptyIndex(copy.getColumn(x))!= -1)
-          this.moveOnOppColumn(x, copy); 
+          this.moveOnColumn(x, copy);  // place on that column
+          if (getLowestEmptyIndex(copy.getColumn(x))!= -1)
+            this.moveOnOppColumn(x, copy); 
 
-      }
+        }
 
-      if (iAmRed) 
-        c = 'Y';
-      else 
-        c = 'R';
+        if (iAmRed) 
+          c = 'Y';
+        else 
+          c = 'R';
 
-      if (copy.gameWon() == c) {
+        if (copy.gameWon() == c) {
 
-        //check for a loss
-        return x; 
-      }
-      // return the column
-    } 
+          //check for a loss
+          return x; 
+        }
+        // return the column
+      } 
     }
     return -2;
 
-  
+
   }
   public int OpAttack() {
     char c;
@@ -486,8 +489,38 @@ public class MyAgent extends Agent {
       return -1;
     }
 
+  }
 
+  public int forkDefense() {
+    int x = -1;
+    char c = ' ';
+    if (iAmRed)
+      c = 'Y';
+    else c = 'R';
+    while (x < 6) {
+      Connect4Game copy = new Connect4Game(myGame);
+      x++;
+      if (getLowestEmptyIndex(copy.getColumn(x)) != -1) {
+        this.moveOnOppColumn(x, copy);
+      }
+      if (this.theyCanWin() != -1) {
+        int a = this.theyCanWin();
+        if (getLowestEmptyIndex(copy.getColumn(x)) != -1)
+        this.moveOnColumn(this.theyCanWin(),copy);
+        if (getLowestEmptyIndex(copy.getColumn(x)) != -1)
+        this.moveOnOppColumn(a, copy);
+
+        if (copy.gameWon() == c) {
+          return x;
+        }
+      }
+    }
+    return -1;
 
   }
+
+
 }
+
+
 
