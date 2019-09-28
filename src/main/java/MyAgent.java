@@ -256,7 +256,7 @@ public class MyAgent extends Agent {
     return -1;
 
   }
-  
+
   public int theyCanWin(Connect4Game newGame) {
     int x = -1;
     while (x < 6) {
@@ -445,23 +445,41 @@ public class MyAgent extends Agent {
   }
   public void initialChecks() {
     if (this.doubleTheyCanWin() != -2 && this.iCanWin() != this.doubleTheyCanWin()) {
+      int a = 0; 
+      int b = 0;
       System.out.println("doubleTheyCanWin"+this.doubleTheyCanWin());
-      i = this.randomMove();
-      System.out.println(i);
-      if (this.checkForColumn() != -1) {
-        i = this.checkForColumn();
-        System.out.println("ia" +i);
-      }
+      if (this.doubleDoubleTheyCanWin() ==this.checkForTwoColumnsA())
+        a = 1;
+      else if (this.doubleDoubleTheyCanWin() ==this.checkForTwoColumnsB()) 
+        a = 2;
+      if (this.doubleTheyCanWin()== this.checkForTwoColumnsA())
+        b = 1;
+      else if (this.doubleTheyCanWin()== this.checkForTwoColumnsB())
+        b = 2;
+      if ((a ==1 && b ==2)||(b ==1 && a ==2))
+        i = this.checkForTwoColumnsA();
       else {
-        System.out.println("Enter Else1 Clause");
-        while (i == this.doubleTheyCanWin()) {
-          i = this.randomMove();
-          while (i== doubleDoubleTheyCanWin()) {
-            i= this.randomMove();
-            System.out.println("DoubleDouble"+doubleDoubleTheyCanWin());
-          }
+        i = this.randomMove();
+        System.out.println(i);
+        if (this.checkForColumn() != -1) {
+          i = this.checkForColumn();
+          System.out.println("ia" +i);
         }
-        System.out.println("Exit Else1 Clause");
+
+        // else if (this.doubleDoubleTheyCanWin() ==this.checkForTwoColumnsA()||this.doubleDoubleTheyCanWin() ==this.checkForTwoColumnsB()) 
+        //     && (this.doubleTheyCanWin())== this.checkForTwoColumnsA() || this.doubleTheyCanWin() ==this.checkForTwoColumnsB())
+        // i = this.checkForTwoColumnsA();
+        else {
+          System.out.println("Enter Else1 Clause");
+          while (i == this.doubleTheyCanWin()) {
+            i = this.randomMove();
+            while (i== doubleDoubleTheyCanWin()) {
+              i= this.randomMove();
+              System.out.println("DoubleDouble"+doubleDoubleTheyCanWin());
+            }
+          }
+          System.out.println("Exit Else1 Clause");
+        }
       }
     }
     if (this.OpAttack() != -2 && this.iCanWin() != this.OpAttack() && this.theyCanWin() != this.OpAttack()) {
@@ -520,19 +538,66 @@ public class MyAgent extends Agent {
         this.moveOnOppColumn(x, copy);
       }
       if (this.theyCanWin(copy) != -1) {
-        int a = this.theyCanWin(copy);
+  //      int a = this.theyCanWin(copy);
         if (getLowestEmptyIndex(copy.getColumn(x)) != -1)
-        this.moveOnColumn(this.theyCanWin(copy),copy);
-        if (getLowestEmptyIndex(copy.getColumn(x)) != -1)
-        this.moveOnOppColumn(a, copy);
+          this.moveOnColumn(this.theyCanWin(copy),copy);
+        int b = -1;
+        while (b < 6) {
+          Connect4Game copyA = new Connect4Game(copy);
+          b++;
+          if (getLowestEmptyIndex(copyA.getColumn(b)) != -1) {
+            this.moveOnOppColumn(b, copyA);
+          }
 
-        if (copy.gameWon() == c) {
-          return x;
+          if (copyA.gameWon() == c) {
+            return x;
+          }
+
         }
       }
     }
     return -1;
+  }
 
+
+
+  public int checkForTwoColumnsA() {
+    int a = 0;
+    int b = 0;
+    System.out.println("Enter checkForTwoColumnsA");
+    for (int j = 0; j < 7; j++) {
+      if (this.getLowestEmptyIndex(myGame.getColumn(j)) != -1) {
+        b++;
+        if (b==1)
+          a = j;
+      }
+    }
+    System.out.println("Exit checkForTwoColumnsA");
+    if (b == 2) {
+      System.out.println("Enter the IFFFFF");
+      return a;
+    } else {
+      return -1;
+    }
+  }
+
+  public int checkForTwoColumnsB() {
+    int a = 0;
+    int b = 0;
+    System.out.println("Enter checkForTwoColumnsB");
+    for (int j = 0; j < 7; j++) {
+      if (this.getLowestEmptyIndex(myGame.getColumn(j)) != -1) {
+        b++;
+        a = j;
+      }
+    }
+    System.out.println("Exit checkForTwoColumnsB");
+    if (b == 2) {
+      System.out.println("Enter the IFFFFF");
+      return a;
+    } else {
+      return -1;
+    }
   }
 
 
