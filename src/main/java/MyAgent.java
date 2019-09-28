@@ -58,12 +58,13 @@ public class MyAgent extends Agent {
     } else if (this.theyCanWin() != -1) {
       System.out.println("They Can Win" + theyCanWin());
       this.moveOnColumn(this.theyCanWin());
-    } else if (this.forkDefense() != -1) {
-      System.out.println("forkDefense" +forkDefense());
-      this.moveOnColumn(forkDefense());
     } else if (this.doubleTheyCanWin() != -2) {
       System.out.println("i" +i);
       this.moveOnColumn(i);
+    }
+    else if (this.forkDefense() != -1) {
+      System.out.println("forkDefense" +forkDefense());
+      this.moveOnColumn(forkDefense());
     }
     else if (this.OpAttack() != -2) {
 
@@ -255,7 +256,22 @@ public class MyAgent extends Agent {
     return -1;
 
   }
+  
+  public int theyCanWin(Connect4Game newGame) {
+    int x = -1;
+    while (x < 6) {
+      Connect4Game copy = new Connect4Game(newGame);
+      x++;
+      if (getLowestEmptyIndex(copy.getColumn(x)) != -1) {
+        this.moveOnOppColumn(x, copy);
+      }
+      if (copy.gameWon() != 'N') {
+        return x;
+      }
+    }
+    return -1;
 
+  }
   /**
    * Returns the name of this agent.
    *
@@ -503,10 +519,10 @@ public class MyAgent extends Agent {
       if (getLowestEmptyIndex(copy.getColumn(x)) != -1) {
         this.moveOnOppColumn(x, copy);
       }
-      if (this.theyCanWin() != -1) {
-        int a = this.theyCanWin();
+      if (this.theyCanWin(copy) != -1) {
+        int a = this.theyCanWin(copy);
         if (getLowestEmptyIndex(copy.getColumn(x)) != -1)
-        this.moveOnColumn(this.theyCanWin(),copy);
+        this.moveOnColumn(this.theyCanWin(copy),copy);
         if (getLowestEmptyIndex(copy.getColumn(x)) != -1)
         this.moveOnOppColumn(a, copy);
 
