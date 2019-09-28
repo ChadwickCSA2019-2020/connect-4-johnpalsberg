@@ -199,7 +199,7 @@ public class MyAgentTest {
     Agent redAgent = new MyAgent(game, true);
     Agent yellowAgent = new BeginnerAgent(game, false);
     int numberOfWins = 0;
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 50; i++) {
       game.clearBoard(); 
       while(!game.boardFull() && game.gameWon() == 'N') {
         redAgent.move();
@@ -214,7 +214,7 @@ public class MyAgentTest {
     }
     System.out.println("You won: " + numberOfWins + " games as Red against Beginner");
     // Test that you win over 90% of your games
-    assertTrue(numberOfWins >= 9);
+    assertTrue(numberOfWins >= 45);
   }
 
   // Tests you can win against a Beginner agent as Yellow
@@ -308,7 +308,7 @@ public class MyAgentTest {
         numberOfWins++;
       }
     }
-    System.out.println("You won: " + numberOfWins + " games as Yellow against Random");
+    System.out.println("You won: " + numberOfWins + " games as Yellow against Intermediate");
     // Test that you win over 90% of your games
     assertTrue(numberOfWins >= 45);
   }
@@ -375,7 +375,7 @@ public class MyAgentTest {
         numberOfWins++;
       }
     }
-    System.out.println("You won: " + numberOfWins + " games as Yellow against Random");
+    System.out.println("You won: " + numberOfWins + " games as Yellow against Advanced");
     // Test that you win over 90% of your games
     assertTrue(numberOfWins >= 45);
   }
