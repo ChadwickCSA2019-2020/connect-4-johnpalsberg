@@ -59,23 +59,35 @@ public class MyAgent extends Agent {
       this.moveOnColumn(this.theyCanWin());
     } else if (this.doubleTheyCanWin() != -2) {
       System.out.println("i" +i);
-      if (this.forkDefense() == -1 || this.forkDefense() == this.doubleTheyCanWin()) 
+ //     if (this.forkAttack() == -1 || this.forkAttack() == this.doubleTheyCanWin()) 
+    //    this.moveOnColumn(i);
+      if ((this.forkDefense() == -1 || this.forkDefense() == this.doubleTheyCanWin()))
         this.moveOnColumn(i);
-      else  
-        this.moveOnColumn(forkDefense());
+      else  {
+  //      if (forkAttack() != -1)
+ //         this.moveOnColumn(forkAttack());
+  //      else 
+          this.moveOnColumn(forkDefense()); 
+      } 
+
     }
+    else if (this.forkAttack() != -1) {
+      System.out.println("forkAttack" +forkAttack());
+      this.moveOnColumn(forkAttack());
+    }
+
     else if (this.forkDefense() != -1) {
-      System.out.println("forkDefense" +forkDefense());
+      System.out.println("forkDefense"+this.forkDefense());
       this.moveOnColumn(forkDefense());
-    }
-    else if (this.OpAttack() != -2) {
+    }  else if (this.OpAttack() != -2) {
 
       this.moveOnColumn(j);
     }
     else if (this.doubleICanWinCheck() != -1) {
-      System.out.println("DoubleICanWin"+this.doubleICanWinCheck());
-      this.moveOnColumn(doubleICanWinCheck());
-    } else {
+      System.out.println("doubleICanWin"+this.doubleICanWinCheck());
+      this.moveOnColumn(this.doubleICanWinCheck());
+    }
+    else {
       System.out.println("Moving randomly");
 
       System.out.println("Random");
@@ -200,7 +212,7 @@ public class MyAgent extends Agent {
         this.moveOnColumn(x, copy);     // place on that column
       }
       if (copy.gameWon() != 'N') {
-        System.out.println("Copy.gameWon" + copy.gameWon());
+
         //check for a win
         return x; 
       }
@@ -224,7 +236,7 @@ public class MyAgent extends Agent {
         c ='Y';
       }
       if (copy.gameWon() == c) {
-        System.out.println("Copy.gameWon" + copy.gameWon());
+
         //check for a win
         return x; 
       }
@@ -304,11 +316,47 @@ public class MyAgent extends Agent {
    */
 
 
-  private int doubleICanWin() {
+  public int forkAttack() {
+    int x = -1;
+    char c = ' ';
+    if (iAmRed)
+      c = 'R';
+    else c = 'Y';
+    while (x < 6) {
+      Connect4Game copy = new Connect4Game(myGame);
+      x++;
+      if (getLowestEmptyIndex(copy.getColumn(x)) != -1) {
+        this.moveOnColumn(x, copy); 
+      }
+      else return -1; 
+
+      if (this.iCanWin(copy) != -1) {
+        //      int a = this.iCanWin(copy);
+        if (getLowestEmptyIndex(copy.getColumn(x)) != -1)
+          this.moveOnOppColumn(this.iCanWin(copy),copy);
+        int b = -1;
+        while (b < 6) {
+          Connect4Game copyA = new Connect4Game(copy);
+          b++;
+          if (getLowestEmptyIndex(copyA.getColumn(b)) != -1) {
+            this.moveOnColumn(b, copyA);
+          }
+
+          if (copyA.gameWon() ==c) {
+            return x;
+          }
+
+        }
+      }
+    }
+    return -1;
+  }
+
+  private boolean doubleICanWin(Connect4Game copy) {
     int x = -1;
     int y = -1;
     while (x < 6) {
-      Connect4Game copyB = new Connect4Game(ACopy); //make a copy
+      Connect4Game copyB = new Connect4Game(copy); //make a copy
       x++;
       if (getLowestEmptyIndex(copyB.getColumn(x)) != -1) { // if it isn't full
         this.moveOnColumn(x, copyB);     // place on that column
@@ -320,27 +368,28 @@ public class MyAgent extends Agent {
           y++;
           this.moveOnColumn(y, copyA);
           if (copyA.gameWon() !='N') 
-            return y;
+            return true;
         }
         // return the column
       } 
     }//repeat
-    return -1;
+    return false;
   }
 
   /*
    * Check for forks
    * 
    */
+
   public int doubleICanWinCheck() {
     int x = -1;
     while (x < 6) {
-      ACopy = new Connect4Game(myGame); 
+      Connect4Game copy = new Connect4Game(myGame); 
       x++;
-      if (getLowestEmptyIndex(ACopy.getColumn(x))!= -1) { // if the column isn't full 
-        this.moveOnColumn(x, ACopy);     // place on that column
+      if (getLowestEmptyIndex(copy.getColumn(x))!= -1) { // if the column isn't full 
+        this.moveOnColumn(x, copy);     // place on that column
       }
-      if (doubleICanWin() != -1) {
+      if (doubleICanWin(copy)) {
         //check for a win
         return x; 
       }
@@ -445,13 +494,19 @@ public class MyAgent extends Agent {
     return -2;
 
   }
+
+
+
+
+
   public void initialChecks() {
+
     if (this.doubleTheyCanWin() != -2 && this.iCanWin() != this.doubleTheyCanWin()) {
       int a = 0; 
       int b = 0;
       System.out.println("doubleTheyCanWin"+this.doubleTheyCanWin());
       if (this.doubleDoubleTheyCanWin() ==this.checkForTwoColumnsA())
-        a = 1;
+        a = 1;  
       else if (this.doubleDoubleTheyCanWin() ==this.checkForTwoColumnsB()) 
         a = 2;
       if (this.doubleTheyCanWin()== this.checkForTwoColumnsA())
@@ -539,6 +594,8 @@ public class MyAgent extends Agent {
       if (getLowestEmptyIndex(copy.getColumn(x)) != -1) {
         this.moveOnOppColumn(x, copy);
       }
+      else return -1;
+
       if (this.theyCanWin(copy) != -1) {
         //      int a = this.theyCanWin(copy);
         if (getLowestEmptyIndex(copy.getColumn(x)) != -1)
