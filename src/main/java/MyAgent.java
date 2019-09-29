@@ -12,7 +12,7 @@ public class MyAgent extends Agent {
   private Random random;
   private int x;
   private Connect4Game ACopy;
-  private int i;
+  private int i; 
   private int j;
   private int k;
 
@@ -50,8 +50,7 @@ public class MyAgent extends Agent {
    */
   public void move() {
     System.out.println(this.doubleTheyCanWin());
-    this.initialChecks();
-
+    this.initialChecks(); // changes i and j to their correct values
     if (this.iCanWin() != -1) {
       System.out.println("I can win");
       this.moveOnColumn(this.iCanWin());
@@ -60,10 +59,10 @@ public class MyAgent extends Agent {
       this.moveOnColumn(this.theyCanWin());
     } else if (this.doubleTheyCanWin() != -2) {
       System.out.println("i" +i);
-     if (this.forkDefense() == -1 ||this.forkDefense() == this.doubleTheyCanWin()) 
-      this.moveOnColumn(i);
-     else  
-      this.moveOnColumn(forkDefense());
+      if (this.forkDefense() == -1 || this.forkDefense() == this.doubleTheyCanWin()) 
+        this.moveOnColumn(i);
+      else  
+        this.moveOnColumn(forkDefense());
     }
     else if (this.forkDefense() != -1) {
       System.out.println("forkDefense" +forkDefense());
@@ -541,7 +540,7 @@ public class MyAgent extends Agent {
         this.moveOnOppColumn(x, copy);
       }
       if (this.theyCanWin(copy) != -1) {
-  //      int a = this.theyCanWin(copy);
+        //      int a = this.theyCanWin(copy);
         if (getLowestEmptyIndex(copy.getColumn(x)) != -1)
           this.moveOnColumn(this.theyCanWin(copy),copy);
         int b = -1;
