@@ -60,7 +60,10 @@ public class MyAgent extends Agent {
       this.moveOnColumn(this.theyCanWin());
     } else if (this.doubleTheyCanWin() != -2) {
       System.out.println("i" +i);
+     if (this.forkDefense() == -1 ||this.forkDefense() == this.doubleTheyCanWin()) 
       this.moveOnColumn(i);
+     else  
+      this.moveOnColumn(forkDefense());
     }
     else if (this.forkDefense() != -1) {
       System.out.println("forkDefense" +forkDefense());
@@ -549,7 +552,7 @@ public class MyAgent extends Agent {
             this.moveOnOppColumn(b, copyA);
           }
 
-          if (copyA.gameWon() !='N') {
+          if (copyA.gameWon() ==c) {
             return x;
           }
 
