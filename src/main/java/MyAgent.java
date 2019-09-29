@@ -549,7 +549,7 @@ public class MyAgent extends Agent {
             this.moveOnOppColumn(b, copyA);
           }
 
-          if (copyA.gameWon() == c) {
+          if (copyA.gameWon() !='N') {
             return x;
           }
 
