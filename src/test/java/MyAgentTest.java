@@ -57,20 +57,21 @@ public class MyAgentTest {
       yellowAgent.moveOnColumn(5,game);
     }
 
-    assertEquals(yellowAgent.iCanWin(), 3);
+    assertEquals(yellowAgent.iCanWin(), 5);
 
   }
+  
   @Test
   public void testICanWinHorizontally2() {
     MyAgent redAgent = new MyAgent(game, true);
     MyAgent yellowAgent = new MyAgent(game, false);
     game.clearBoard();
-    for (int i = 6; i > 3; i--) {
+    for (int i = 5; i > 2; i--) {
       redAgent.moveOnColumn(i,game);
       yellowAgent.moveOnColumn(5,game);
     }
 
-    assertEquals(redAgent.iCanWin(), 3);
+    assertEquals(redAgent.iCanWin(), 2);
 
   }
 
@@ -86,13 +87,14 @@ public class MyAgentTest {
     yellowAgent.moveOnColumn(3,game);
     yellowAgent.moveOnColumn(3,game);
     yellowAgent.moveOnColumn(3,game); 
-    for (int j=1; j<4; j++) {
+    for (int j = 1; j < 4; j++) {
       redAgent.moveOnColumn(j,game);
     }
-    assertEquals(redAgent.iCanWin(), 4); 
+    assertEquals(redAgent.iCanWin(), 0); 
 
 
   }
+  
   @Test
   public void testICanWinDiagonally2() {
     MyAgent redAgent = new MyAgent(game, true);
@@ -104,10 +106,14 @@ public class MyAgentTest {
     yellowAgent.moveOnColumn(4,game);
     yellowAgent.moveOnColumn(4,game);
     yellowAgent.moveOnColumn(4,game); 
-    for (int j=6; j>3; j--) {
+    yellowAgent.moveOnColumn(3,game);
+    yellowAgent.moveOnColumn(3,game);
+    yellowAgent.moveOnColumn(3,game); 
+    yellowAgent.moveOnColumn(3,game); 
+    for (int j = 6; j > 3; j--) {
       redAgent.moveOnColumn(j,game);
     }
-    assertEquals(redAgent.iCanWin(), 3); 
+    assertEquals(redAgent.iCanWin(), 0); 
 
 
   }
@@ -140,6 +146,7 @@ public class MyAgentTest {
     assertEquals(redAgent.theyCanWin(), 3);
 
   }
+  
   @Test
   public void testTheyCanWinHorizontallyYellow() {
     MyAgent redAgent = new MyAgent(game, true);
@@ -167,13 +174,14 @@ public class MyAgentTest {
     redAgent.moveOnColumn(3,game);
     redAgent.moveOnColumn(3,game);
     redAgent.moveOnColumn(3,game); 
-    for (int j=1; j<4; j++) {
+    for (int j = 1; j < 4; j++) {
       yellowAgent.moveOnColumn(j,game);
     }
     assertEquals(yellowAgent.theyCanWin(), 0); 
 
 
   }
+  
   @Test
   public void testTheyCanWinDiagonallyRed() {
     MyAgent redAgent = new MyAgent(game, true);
@@ -185,7 +193,7 @@ public class MyAgentTest {
     yellowAgent.moveOnColumn(3,game);
     yellowAgent.moveOnColumn(3,game);
     yellowAgent.moveOnColumn(3,game); 
-    for (int j=1; j<3; j++) {
+    for (int j = 1; j < 3; j++) {
       redAgent.moveOnColumn(j,game);
     }
     assertEquals(redAgent.theyCanWin(), 0); 
@@ -201,9 +209,9 @@ public class MyAgentTest {
     int numberOfWins = 0;
     for (int i = 0; i < 50; i++) {
       game.clearBoard(); 
-      while(!game.boardFull() && game.gameWon() == 'N') {
+      while (!game.boardFull() && game.gameWon() == 'N') {
         redAgent.move();
-        if (game.gameWon() != 'R') {
+        if (game.gameWon() != 'Y') {
           yellowAgent.move();
         }
       }
@@ -223,9 +231,9 @@ public class MyAgentTest {
     Agent redAgent = new BeginnerAgent(game, true);
     Agent yellowAgent = new MyAgent(game, false);
     int numberOfWins = 0;
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 50; i++) {
       game.clearBoard(); 
-      while(!game.boardFull() && game.gameWon() == 'N') {
+      while (!game.boardFull() && game.gameWon() == 'N') {
         redAgent.move();
         if (game.gameWon() != 'R') {
           yellowAgent.move();
@@ -247,11 +255,11 @@ public class MyAgentTest {
     Agent redAgent = new MyAgent(game, true);
     Agent yellowAgent = new RandomAgent(game, false);
     int numberOfWins = 0;
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 50; i++) {
       game.clearBoard(); 
-      while(!game.boardFull() && game.gameWon() == 'N') {
+      while (!game.boardFull() && game.gameWon() == 'N') {
         redAgent.move();
-        if (game.gameWon() != 'R') {
+        if (game.gameWon() != 'Y') {
           yellowAgent.move();
         }
       }
@@ -273,7 +281,7 @@ public class MyAgentTest {
     int numberOfWins = 0;
     for (int i = 0; i < 50; i++) {
       game.clearBoard(); 
-      while(!game.boardFull() && game.gameWon() == 'N') {
+      while (!game.boardFull() && game.gameWon() == 'N') {
         redAgent.move();
         if (game.gameWon() != 'R') {
           yellowAgent.move();
@@ -295,9 +303,9 @@ public class MyAgentTest {
     Agent redAgent = new IntermediateAgent(game, false);
     Agent yellowAgent = new MyAgent(game, true);
     int numberOfWins = 0;
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 50; i++) {
       game.clearBoard(); 
-      while(!game.boardFull() && game.gameWon() == 'N') {
+      while (!game.boardFull() && game.gameWon() == 'N') {
         redAgent.move();
         if (game.gameWon() != 'Y') {
           yellowAgent.move();
@@ -312,6 +320,7 @@ public class MyAgentTest {
     // Test that you win over 90% of your games
     assertTrue(numberOfWins >= 45);
   }
+  
   @Test
   public void testRedWinningIntermediateAgent() {
     Agent redAgent = new IntermediateAgent(game, true);
@@ -319,7 +328,7 @@ public class MyAgentTest {
     int numberOfWins = 0;
     for (int i = 0; i < 50; i++) {
       game.clearBoard(); 
-      while(!game.boardFull() && game.gameWon() == 'N') {
+      while (!game.boardFull() && game.gameWon() == 'N') {
         redAgent.move();
         if (game.gameWon() != 'R') {
           yellowAgent.move();
@@ -334,15 +343,16 @@ public class MyAgentTest {
     // Test that you win over 90% of your games
     assertTrue(numberOfWins >= 45);
   }
+  
   // SUPER BONUS TODO: Write testCases to playAgainst AdvancedAgent
   @Test
   public void testYellowAdvancedAgent() {
     Agent redAgent = new AdvancedAgent(game, false);
     Agent yellowAgent = new MyAgent(game, true);
     int numberOfWins = 0;
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 50; i++) {
       game.clearBoard(); 
-      while(!game.boardFull() && game.gameWon() == 'N') {
+      while (!game.boardFull() && game.gameWon() == 'N') {
         redAgent.move();
         if (game.gameWon() != 'Y') {
           yellowAgent.move();
@@ -357,6 +367,7 @@ public class MyAgentTest {
     // Test that you win over 90% of your games
     assertTrue(numberOfWins >= 45);
   }
+  
   @Test
   public void testRedAdvancedAgent() {
     Agent redAgent = new AdvancedAgent(game, true);
@@ -364,7 +375,7 @@ public class MyAgentTest {
     int numberOfWins = 0;
     for (int i = 0; i < 50; i++) {
       game.clearBoard(); 
-      while(!game.boardFull() && game.gameWon() == 'N') {
+      while (!game.boardFull() && game.gameWon() == 'N') {
         redAgent.move();
         if (game.gameWon() != 'R') {
           yellowAgent.move();
@@ -380,14 +391,15 @@ public class MyAgentTest {
     assertTrue(numberOfWins >= 45);
   }
   // SUPER BONUS TODO: Write testCases to playAgainst BrilliantAgent
+  
   @Test
   public void testRedWinningBrilliantAgent() {
     Agent redAgent = new BrilliantAgent(game, true);
     Agent yellowAgent = new MyAgent(game, false);
     int numberOfWins = 0;
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 50; i++) {
       game.clearBoard(); 
-      while(!game.boardFull() && game.gameWon() == 'N') {
+      while (!game.boardFull() && game.gameWon() == 'N') {
         redAgent.move();
         if (game.gameWon() != 'R') {
           yellowAgent.move();
@@ -402,6 +414,7 @@ public class MyAgentTest {
     // Test that you win over 90% of your games
     assertTrue(numberOfWins >= 45);
   }
+  @Test
   public void testYellowWinningBrilliantAgent() {
     Agent redAgent = new BrilliantAgent(game, false);
     Agent yellowAgent = new MyAgent(game, true);
@@ -423,27 +436,9 @@ public class MyAgentTest {
     // Test that you win over 90% of your games
     assertTrue(numberOfWins >= 45);
   }
-  // Test to win
-  @Test
-  public void testDoubleICanWin() {
-    MyAgent redAgent = new MyAgent(game, true);
-    MyAgent yellowAgent = new MyAgent(game, false);
-    game.clearBoard();
-    redAgent.moveOnColumn(1,game);
-    redAgent.moveOnColumn(3,game);
-    redAgent.moveOnColumn(4,game);
-    redAgent.moveOnColumn(3,game);
-    redAgent.moveOnColumn(4,game);
-    redAgent.moveOnColumn(4,game); 
-
-    yellowAgent.move();
-
-
-
-
-  }
 }
-
+  // Test to win
+ 
 
 
 
