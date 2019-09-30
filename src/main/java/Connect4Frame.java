@@ -217,7 +217,7 @@ public class Connect4Frame extends JFrame {
       disableButtons();
       alert("The game ended in a draw!");
     } else {
-   // if it didn't end in a win or draw, leave the error message up
+      // if it didn't end in a win or draw, leave the error message up
       disableButtons();
     }
   }
